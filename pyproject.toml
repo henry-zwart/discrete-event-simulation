@@ -1,0 +1,26 @@
+[project]
+name = "discrete-event-sim"
+version = "0.1.0"
+description = "Discrete event simulation assignment for Stochastic Simulation"
+readme = "README.md"
+authors = [
+    { name = "Henry Zwart", email = "henrybzwart@gmail.com" },
+    { name = "Tika van Bennekum", email = "tika.v.bennekum@gmail.com" },
+    { name = "Petr Chalupský", email = "chalupskypetr22@gmail.com"},
+]
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.9.2",
+    "numpy>=2.1.3",
+    "scipy>=1.14.1",
+    "seaborn>=0.13.2",
+    "simpy>=4.1.1",
+    "tqdm>=4.67.0",
+]
+
+[project.scripts]
+discrete-event-sim = "discrete_event_sim:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
