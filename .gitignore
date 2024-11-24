@@ -195,6 +195,7 @@ pyrightconfig.json
 # Project-specific
 *.png
 *.pdf
+!assignment_spec.pdf
 *.npy
 *.pkl
 *.json
