@@ -14,7 +14,7 @@ import random
 import simpy
 import numpy as np
 
-SIM_TIME = 20
+SIM_TIME = 0
 AVG_WAITING_TIME = 0
 CLIENT_COUNT = itertools.count()
 
@@ -54,12 +54,26 @@ def setup(env, nr_servers, arrival_rate, rho):
         env.process(client(env, system, servicetime, next(CLIENT_COUNT)))
 
 
-random.seed(145)
-env = simpy.Environment()
+def run(seed, sim_time, nr_servers, arrival_rate, rho):
+    global  AVG_WAITING_TIME
+    global CLIENT_COUNT
+    global SIM_TIME
+    AVG_WAITING_TIME = 0
+    CLIENT_COUNT = itertools.count()
+    SIM_TIME = sim_time
 
-nr_servers = 1
-env.process(setup(env, nr_servers=1, arrival_rate=1, rho=0.95))
-env.run(until=SIM_TIME)
-AVG_WAITING_TIME /= next(CLIENT_COUNT) - 1
-print(AVG_WAITING_TIME)
+    random.seed(seed)
+    env = simpy.Environment()
 
+    env.process(setup(env, nr_servers, arrival_rate, rho))
+    env.run(until=SIM_TIME)
+    nr_clients = next(CLIENT_COUNT)
+    AVG_WAITING_TIME /= nr_clients - 1
+
+    return (nr_clients, AVG_WAITING_TIME)
+
+def experiment():
+    nr_clients, avg_waiting_time = run(145, 10000, nr_servers=2, arrival_rate=1, rho=0.75)
+    print(avg_waiting_time)
+
+experiment()
