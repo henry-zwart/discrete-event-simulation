@@ -32,15 +32,15 @@ def client(env, system, servicetime, id):
     global AVG_WAITING_TIME
     # tells enviroment new customer arrives
     time_entering_system = env.now
-    print(f'a client {id} arrives the system at {time_entering_system:.2f}.')
+    # print(f'a client {id} arrives the system at {time_entering_system:.2f}.')
     with system.server.request() as request:
         yield request
         
         time_being_serviced = env.now
-        print(f'a client {id} is being serviced at {time_being_serviced:.2f}.')
+        # print(f'a client {id} is being serviced at {time_being_serviced:.2f}.')
         AVG_WAITING_TIME += time_being_serviced - time_entering_system
         yield env.process(system.serv(servicetime))
-        print(f'a client {id} stopped being serviced at {env.now:.2f}.')
+        # print(f'a client {id} stopped being serviced at {env.now:.2f}.')
 
 def setup(env, nr_servers, arrival_rate, rho):
     global CLIENT_COUNT
@@ -73,7 +73,18 @@ def run(seed, sim_time, nr_servers, arrival_rate, rho):
     return (nr_clients, AVG_WAITING_TIME)
 
 def experiment():
-    nr_clients, avg_waiting_time = run(145, 10000, nr_servers=2, arrival_rate=1, rho=0.75)
-    print(avg_waiting_time)
+    avg_wait_nr_servers = []
+
+    num_runs = 5
+    for nr_servers in [1, 2, 4]:
+        print("nr_servers: ", nr_servers)
+        waiting_time_runs = 0
+        for i in range(num_runs):
+            print("run: ", i)
+            nr_clients, waiting_time = run(145, 10000, nr_servers, arrival_rate=1, rho=0.75)
+            waiting_time_runs += waiting_time
+        avg_wait_nr_servers.append(waiting_time_runs / num_runs)
+
+    print(avg_wait_nr_servers)
 
 experiment()
