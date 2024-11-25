@@ -60,19 +60,29 @@ def client(env, system, servicetime, id):
         # print(f'a client {id} stopped being serviced at {env.now:.2f}.')
 
 
-def setup(env, nr_servers, capacity, rho, fifo):
+def setup(env, nr_servers, capacity, rho, fifo, service_dis):
     global CLIENT_COUNT
     # arrival rate = lambda
     arrival_rate = rho * nr_servers * capacity
     system = System(env, nr_servers, fifo)
 
     while True:
-        servicetime = np.random.exponential(1 / capacity)
+        if service_dis == "exponential":
+            servicetime = np.random.exponential(1 / capacity)
+        elif service_dis == "deterministic":
+            servicetime = 1 / capacity
+        elif service_dis == "hyperexponential":
+            # TODO: make expected value same
+            if np.random.random() < 0.75:
+                servicetime = np.random.exponential(1 / capacity)
+            else:
+                servicetime = np.random.exponential(5 / capacity)
+
         yield env.timeout(np.random.exponential(1 / arrival_rate))
         env.process(client(env, system, servicetime, next(CLIENT_COUNT)))
 
 
-def run(seed, sim_time, nr_servers, capacity, rho, fifo):
+def run(seed, sim_time, nr_servers, capacity, rho, fifo, service_dis):
     global AVG_WAITING_TIME
     global CLIENT_COUNT
     global SIM_TIME
@@ -83,7 +93,7 @@ def run(seed, sim_time, nr_servers, capacity, rho, fifo):
     random.seed(seed)
     env = simpy.Environment()
 
-    env.process(setup(env, nr_servers, capacity, rho, fifo))
+    env.process(setup(env, nr_servers, capacity, rho, fifo, service_dis))
     env.run(until=SIM_TIME)
     nr_clients = next(CLIENT_COUNT)
     AVG_WAITING_TIME /= nr_clients - 1
@@ -94,14 +104,20 @@ def run(seed, sim_time, nr_servers, capacity, rho, fifo):
 def experiment():
     avg_wait_nr_servers = []
 
-    num_runs = 20
+    num_runs = 5
     for nr_servers in [1, 2, 4]:
         print("nr_servers: ", nr_servers)
         waiting_time_runs = []
         for i in range(num_runs):
             print("run: ", i)
             nr_clients, waiting_time = run(
-                145, 10000, nr_servers, capacity=1, rho=0.9, fifo=False
+                145,
+                10000,
+                nr_servers,
+                capacity=1,
+                rho=0.9,
+                fifo=False,
+                service_dis="hyperexponential",
             )
             waiting_time_runs.append(waiting_time)
         avg_wait_nr_servers.append(waiting_time_runs)
