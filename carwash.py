@@ -61,14 +61,14 @@ def car(env, name, cw):
     leaves to never come back ...
 
     """
-    print(f'{name} arrives at the carwash at {env.now:.2f}.')
+    print(f"{name} arrives at the carwash at {env.now:.2f}.")
     with cw.machine.request() as request:
         yield request
 
-        print(f'{name} enters the carwash at {env.now:.2f}.')
+        print(f"{name} enters the carwash at {env.now:.2f}.")
         yield env.process(cw.wash(name))
 
-        print(f'{name} leaves the carwash at {env.now:.2f}.')
+        print(f"{name} leaves the carwash at {env.now:.2f}.")
 
 
 def setup(env, num_machines, washtime, t_inter):
@@ -81,17 +81,17 @@ def setup(env, num_machines, washtime, t_inter):
 
     # Create 4 initial cars
     for _ in range(4):
-        env.process(car(env, f'Car {next(car_count)}', carwash))
+        env.process(car(env, f"Car {next(car_count)}", carwash))
 
     # Create more cars while the simulation is running
     while True:
         yield env.timeout(random.randint(t_inter - 2, t_inter + 2))
-        env.process(car(env, f'Car {next(car_count)}', carwash))
+        env.process(car(env, f"Car {next(car_count)}", carwash))
 
 
 # Setup and start the simulation
-print('Carwash')
-print('Check out http://youtu.be/fXXmeP9TvBg while simulating ... ;-)')
+print("Carwash")
+print("Check out http://youtu.be/fXXmeP9TvBg while simulating ... ;-)")
 random.seed(RANDOM_SEED)  # This helps to reproduce the results
 
 # Create an environment and start the setup process
