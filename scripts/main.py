@@ -37,7 +37,7 @@ class System:
         """A client is served."""
         yield self.env.timeout(servicetime)
 
-    def request(self, priority=None):
+    def request(self, priority=0):
         """A client requests being served."""
         if isinstance(self.server, simpy.PriorityResource):
             return self.server.request(priority).__enter__()
@@ -45,22 +45,19 @@ class System:
             return self.server.request().__enter__()
 
 
-def client(env, system, servicetime, id):
+def client(env, system, servicetime):
     """Function handles the proces of a client."""
     global AVG_WAITING_TIME
     time_entering_system = env.now
-    # print(f'a client {id} arrives the system at {time_entering_system:.2f}.')
 
     # tells enviroment new customer arrives
     with system.request(servicetime) as request:
         yield request
 
         time_being_serviced = env.now
-        # print(f'a client {id} is being serviced at {time_being_serviced:.2f}.')
         AVG_WAITING_TIME += time_being_serviced - time_entering_system
 
         yield env.process(system.serv(servicetime))
-        # print(f'a client {id} stopped being serviced at {env.now:.2f}.')
 
 
 def setup(env, nr_servers, capacity, rho, fifo, service_dis):
@@ -84,9 +81,11 @@ def setup(env, nr_servers, capacity, rho, fifo, service_dis):
                 servicetime = np.random.exponential(1 / capacity)
             else:
                 servicetime = np.random.exponential(5 / capacity)
+        else:
+            raise ValueError(f"Unknown service-time distribution: {service_dis}")
 
         yield env.timeout(np.random.exponential(1 / arrival_rate))
-        env.process(client(env, system, servicetime, next(CLIENT_COUNT)))
+        env.process(client(env, system, servicetime))
 
 
 def run(seed, sim_time, nr_servers, capacity, rho, fifo, service_dis):
@@ -125,7 +124,7 @@ def experiment():
         waiting_time_runs = []
         for i in range(num_runs):
             print("run: ", i)
-            nr_clients, waiting_time = run(
+            waiting_time = run(
                 145,
                 10000,
                 nr_servers,
