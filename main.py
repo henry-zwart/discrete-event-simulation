@@ -35,6 +35,12 @@ class System:
     def serv(self, servicetime):
         yield self.env.timeout(servicetime)
 
+    def request(self, priority=None):
+        if isinstance(self.server, simpy.PriorityResource):
+            return self.server.request(priority).__enter__()
+        else:
+            return self.server.request().__enter__()
+
 
 def client(env, system, servicetime, id):
     global AVG_WAITING_TIME
@@ -43,7 +49,7 @@ def client(env, system, servicetime, id):
     # print(f'a client {id} arrives the system at {time_entering_system:.2f}.')
 
     # tells enviroment new customer arrives
-    with system.server.request() as request:
+    with system.request(servicetime) as request:
         yield request
 
         time_being_serviced = env.now
