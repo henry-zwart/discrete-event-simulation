@@ -115,7 +115,7 @@ def experiment():
                 10000,
                 nr_servers,
                 capacity=1,
-                rho=0.9,
+                rho=0.95,
                 fifo=False,
                 service_dis="hyperexponential",
             )
