@@ -115,22 +115,21 @@ def run(seed, sim_time, nr_servers, capacity, rho, fifo, service_dis):
     return (nr_clients, AVG_WAITING_TIME)
 
 
-def experiment():
+def experiment(num_runs, seed, sim_time, rho, fifo, service_dis):
     """From this function runs are called to gather data."""
     avg_wait_nr_servers = []
 
-    num_runs = 5
     for nr_servers in [1, 2, 4]:
         print("nr_servers: ", nr_servers)
         waiting_time_runs = []
         for i in range(num_runs):
             print("run: ", i)
             nr_clients, waiting_time = run(
-                145,
-                10000,
+                seed,
+                sim_time,
                 nr_servers,
                 capacity=1,
-                rho=0.95,
+                rho=rho,
                 fifo=False,
                 service_dis="hyperexponential",
             )
@@ -139,15 +138,6 @@ def experiment():
 
     # This is for the statistical significance.
     avg_wait_nr_servers = np.array(avg_wait_nr_servers)
-    list_means = np.mean(avg_wait_nr_servers, axis=1)
-    list_std = np.std(avg_wait_nr_servers, axis=1, ddof=1)
 
-    print(list_means)
-    print(list_std)
+    return avg_wait_nr_servers
 
-    # WELCH, this is for the statistical significance.
-    welch = ttest_ind(avg_wait_nr_servers[0], avg_wait_nr_servers[1], equal_var=False)
-    print(welch)
-
-
-experiment()
