@@ -15,7 +15,6 @@ import random
 
 import numpy as np
 import simpy
-from scipy.stats import ttest_ind
 
 SIM_TIME = 0
 AVG_WAITING_TIME = 0
@@ -140,4 +139,3 @@ def experiment(num_runs, seed, sim_time, rho, fifo, service_dis):
     avg_wait_nr_servers = np.array(avg_wait_nr_servers)
 
     return avg_wait_nr_servers
-
