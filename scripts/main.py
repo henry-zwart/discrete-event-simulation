@@ -1,13 +1,13 @@
 """
-DES
+Course: Stochastic Simulation
+Names: Petr Chalupský, Henry Zwart, Tika van Bennekum
+Student IDs: 15719227, 15393879, 13392425
+Assignement: DES simulation	assignment
 
-For this assignment we’ll be using the following notation:
-λ – the arrival rate into the system as a whole.
-µ – the capacity of each of n equal servers.
-ρ represents the system load. In a single server system, it will be: ρ=λ/µ
-In a multi-server system (one queue with n equal servers, each with capacity µ),
-it will be
-ρ=λ/(nµ).
+File description:
+    ...
+    Arrival rate (lambda)
+    Capacity (mu)
 """
 
 import itertools
@@ -23,19 +23,22 @@ CLIENT_COUNT = itertools.count()
 
 
 class System:
-    # setup system
+    """Class for the system."""
+
     def __init__(self, env, nr_servers, fifo):
+        """Sets up system for new run."""
         self.env = env
         if fifo:
             self.server = simpy.Resource(env, nr_servers)
         else:
             self.server = simpy.PriorityResource(env, nr_servers)
 
-    # serving of client
     def serv(self, servicetime):
+        """A client is served."""
         yield self.env.timeout(servicetime)
 
     def request(self, priority=None):
+        """A client requests being served."""
         if isinstance(self.server, simpy.PriorityResource):
             return self.server.request(priority).__enter__()
         else:
@@ -43,8 +46,8 @@ class System:
 
 
 def client(env, system, servicetime, id):
+    """Function handles the proces of a client."""
     global AVG_WAITING_TIME
-
     time_entering_system = env.now
     # print(f'a client {id} arrives the system at {time_entering_system:.2f}.')
 
@@ -61,11 +64,15 @@ def client(env, system, servicetime, id):
 
 
 def setup(env, nr_servers, capacity, rho, fifo, service_dis):
+    """Set up for system. New clients enter system  and get a service
+    time appointed."""
     global CLIENT_COUNT
-    # arrival rate = lambda
+
     arrival_rate = rho * nr_servers * capacity
     system = System(env, nr_servers, fifo)
 
+    # In this while loop new clients enter the system and get a service
+    # time appointed.
     while True:
         if service_dis == "exponential":
             servicetime = np.random.exponential(1 / capacity)
@@ -83,6 +90,9 @@ def setup(env, nr_servers, capacity, rho, fifo, service_dis):
 
 
 def run(seed, sim_time, nr_servers, capacity, rho, fifo, service_dis):
+    """This function runs the simulation from start to end."""
+
+    # Resets global variables.
     global AVG_WAITING_TIME
     global CLIENT_COUNT
     global SIM_TIME
@@ -90,11 +100,15 @@ def run(seed, sim_time, nr_servers, capacity, rho, fifo, service_dis):
     CLIENT_COUNT = itertools.count()
     SIM_TIME = sim_time
 
+    # Standard seed, to make results consistent.
     random.seed(seed)
-    env = simpy.Environment()
 
+    # Starts up simpy environment.
+    env = simpy.Environment()
     env.process(setup(env, nr_servers, capacity, rho, fifo, service_dis))
     env.run(until=SIM_TIME)
+
+    # At the end of the run, the avg waiting time is calculated.
     nr_clients = next(CLIENT_COUNT)
     AVG_WAITING_TIME /= nr_clients - 1
 
@@ -102,6 +116,7 @@ def run(seed, sim_time, nr_servers, capacity, rho, fifo, service_dis):
 
 
 def experiment():
+    """From this function runs are called to gather data."""
     avg_wait_nr_servers = []
 
     num_runs = 5
@@ -122,6 +137,7 @@ def experiment():
             waiting_time_runs.append(waiting_time)
         avg_wait_nr_servers.append(waiting_time_runs)
 
+    # This is for the statistical significance.
     avg_wait_nr_servers = np.array(avg_wait_nr_servers)
     list_means = np.mean(avg_wait_nr_servers, axis=1)
     list_std = np.std(avg_wait_nr_servers, axis=1, ddof=1)
@@ -129,7 +145,7 @@ def experiment():
     print(list_means)
     print(list_std)
 
-    # WELCH
+    # WELCH, this is for the statistical significance.
     welch = ttest_ind(avg_wait_nr_servers[0], avg_wait_nr_servers[1], equal_var=False)
     print(welch)
 
