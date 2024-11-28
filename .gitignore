@@ -103,6 +103,8 @@ ipython_config.py
 
 # Ignore data
 .npy
+.txt
+
 
 
 # pyenv
