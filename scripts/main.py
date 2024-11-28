@@ -240,8 +240,8 @@ def experiment(num_runs, seed, sim_time, rho, fifo, service_dis):
                 nr_servers,
                 capacity=1,
                 rho=rho,
-                fifo=False,
-                service_dis="hyperexponential",
+                fifo=fifo,
+                service_dis=service_dis,
             )
             waiting_time_runs.append(waiting_time)
         avg_wait_nr_servers.append(waiting_time_runs)
