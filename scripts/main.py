@@ -234,7 +234,7 @@ def experiment(num_runs, seed, sim_time, rho, fifo, service_dis):
         waiting_time_runs = []
         for i in range(num_runs):
             print("run: ", i)
-             waiting_time = run(
+            waiting_time = run(
                 seed,
                 sim_time,
                 nr_servers,
@@ -250,4 +250,3 @@ def experiment(num_runs, seed, sim_time, rho, fifo, service_dis):
     avg_wait_nr_servers = np.array(avg_wait_nr_servers)
 
     return avg_wait_nr_servers
-
