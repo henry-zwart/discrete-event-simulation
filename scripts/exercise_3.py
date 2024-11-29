@@ -50,7 +50,7 @@ fig, ax = plt.subplots(figsize=(12, 12))
 sns.boxplot(results_dictionary, ax=ax)
 sns.swarmplot(data=results_dictionary, color="k")
 
-ax.set_xlabel("Number of servers")
+
 ax.set_ylabel("Average waiting time")
 
 plt.savefig("../figures/exercise_3_boxplot.png", dpi=300)

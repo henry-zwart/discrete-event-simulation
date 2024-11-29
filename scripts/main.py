@@ -184,9 +184,9 @@ class System:
     def _sample_hexp_service_time(self) -> float:
         """Helper function: sample service times from hyperexponential dist."""
         if np.random.random() < 0.75:
-            return np.random.exponential(1 / self.capacity)
+            return np.random.exponential(0.5 / self.capacity)
         else:
-            return np.random.exponential(5 / self.capacity)
+            return np.random.exponential(2.5 / self.capacity)
 
 
 def setup(
