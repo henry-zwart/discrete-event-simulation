@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 
 def run(rho):
-    measure_times = np.arange(100, 5000, 100)
+    measure_times = np.arange(1000, 10000, 1000)
     means = []
     cis = []
     for n in (1, 2, 4):
