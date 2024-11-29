@@ -1,6 +1,7 @@
 import itertools
 
 import matplotlib.pyplot as plt
+import numpy as np
 import seaborn as sns
 from main import experiment
 
@@ -16,24 +17,35 @@ service_dis = "exponential"
 fifo = True
 rho = 0.99
 
-avg_wait_nr_servers_fifo = experiment(
-    num_runs=num_runs,
-    seed=seed,
-    sim_time=sim_time,
-    rho=rho,
-    fifo=fifo,
-    service_dis=service_dis,
+avg_wait_nr_servers_fifo = np.array(
+    [
+        experiment(
+            num_runs=num_runs,
+            seed=seed,
+            sim_time=sim_time,
+            rho=rho,
+            fifo=fifo,
+            service_dis=service_dis,
+            n_servers=n,
+        )
+        for n in (1, 2, 4)
+    ]
 )
 
 fifo = False
 
-avg_wait_nr_servers_not_fifo = experiment(
-    num_runs=num_runs,
-    seed=seed,
-    sim_time=sim_time,
-    rho=rho,
-    fifo=fifo,
-    service_dis=service_dis,
+avg_wait_nr_servers_not_fifo = np.array(
+    [
+        experiment(
+            num_runs=num_runs,
+            seed=seed,
+            sim_time=sim_time,
+            rho=rho,
+            fifo=fifo,
+            service_dis=service_dis,
+        )
+        for n in (1, 2, 4)
+    ]
 )
 
 results_dictionary = {
@@ -53,4 +65,4 @@ sns.swarmplot(data=results_dictionary, color="k")
 
 ax.set_ylabel("Average waiting time")
 
-plt.savefig("../figures/exercise_3_boxplot.png", dpi=300)
+plt.savefig("results/figures/exercise_3_boxplot.png", dpi=300)

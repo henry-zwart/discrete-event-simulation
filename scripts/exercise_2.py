@@ -16,15 +16,20 @@ fifo = True
 rho = 0.95
 
 
-avg_wait_nr_servers = experiment(
-    num_runs=num_runs,
-    seed=seed,
-    sim_time=sim_time,
-    rho=rho,
-    fifo=fifo,
-    service_dis=service_dis,
+avg_wait_nr_servers = np.array(
+    [
+        experiment(
+            num_runs=num_runs,
+            seed=seed,
+            sim_time=sim_time,
+            rho=rho,
+            fifo=fifo,
+            service_dis=service_dis,
+            n_servers=n,
+        )
+        for n in (1, 2, 4)
+    ]
 )
-
 
 welch_1_2 = ttest_ind(avg_wait_nr_servers[0], avg_wait_nr_servers[1], equal_var=False)
 welch_1_4 = ttest_ind(avg_wait_nr_servers[0], avg_wait_nr_servers[2], equal_var=False)
@@ -32,7 +37,7 @@ welch_1_4 = ttest_ind(avg_wait_nr_servers[0], avg_wait_nr_servers[2], equal_var=
 np.save("data/exercise_2_avg_wait_nr_servers", avg_wait_nr_servers)
 
 
-with open("results/exercise_2.txt", "w") as f:
+with open("data/exercise_2.txt", "w") as f:
     f.write(f"{welch_1_2} \n")
     f.write(f"{welch_1_4} \n")
     f.close()
@@ -51,13 +56,19 @@ for rho in rho_list:
     means_dict[(rho)] = []
     std_dict[(rho)] = []
     for sim_time in sim_time_list:
-        avg_wait_nr_servers = experiment(
-            num_runs=num_runs,
-            seed=seed,
-            sim_time=sim_time,
-            rho=rho,
-            fifo=fifo,
-            service_dis=service_dis,
+        avg_wait_nr_servers = np.array(
+            [
+                experiment(
+                    num_runs=num_runs,
+                    seed=seed,
+                    sim_time=sim_time,
+                    rho=rho,
+                    fifo=fifo,
+                    service_dis=service_dis,
+                    n_servers=n,
+                )
+                for n in (1, 2, 4)
+            ]
         )
         means_dict[(rho)].append(np.mean(avg_wait_nr_servers, axis=1))
         std_dict[(rho)].append(np.std(avg_wait_nr_servers, axis=1, ddof=1))
