@@ -225,7 +225,7 @@ def run(seed, sim_time, nr_servers, capacity, rho, fifo, service_dis):
     return avg_waiting_time
 
 
-def experiment(num_runs, seed, sim_time, rho, fifo, service_dis, n_servers=1):
+def experiment(num_runs, seed, sim_time, rho, service_dis, fifo=True, n_servers=1):
     """From this function runs are called to gather data."""
     waiting_time_runs = []
     for _ in range(num_runs):

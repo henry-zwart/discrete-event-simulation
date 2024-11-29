@@ -18,7 +18,7 @@ def run(rho, n):
                 seed=42,
                 sim_time=mt,
                 rho=rho,
-                fifo=False,
+                fifo=True,
                 service_dis="exponential",
                 n_servers=n,
             )
