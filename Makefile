@@ -9,7 +9,6 @@ FIGURE_NAMES = \
 	exercise_4_boxplot.png
 
 FIGURES = $(patsubst %, results/figures/%, $(FIGURE_NAMES))
-RHO = 0.5 0.65 0.8 0.95
 
 ENTRYPOINT ?= uv run
 
@@ -32,9 +31,9 @@ $(FIGURES) ?: .make-figures
 
 data/.ex2_data: scripts/exercise_2.py scripts/exercise_2_5.py | $(DATA_DIR)
 	$(ENTRYPOINT) $< && \
-	$(ENTRYPOINT) scripts/exercise_2_5.py 0.7 && \
+	$(ENTRYPOINT) scripts/exercise_2_5.py 0.8 && \
 	$(ENTRYPOINT) scripts/exercise_2_5.py 0.9 && \
-	$(ENTRYPOINT) scripts/exercise_2_5.py 0.99 && \
+	$(ENTRYPOINT) scripts/exercise_2_5.py 0.98 && \
 	touch $@
 
 $(FIGURES_DIR):

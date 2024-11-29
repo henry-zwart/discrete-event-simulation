@@ -6,7 +6,7 @@ def plot():
     measure_times = np.load("data/measure_times.npy")
 
     fig, axes = plt.subplots(1, 3, figsize=(10, 4), sharey=True)
-    for i, rho in enumerate((0.7, 0.9, 0.99)):
+    for i, rho in enumerate((0.8, 0.9, 0.98)):
         means = np.load(f"data/means_rho_{str(rho).replace(".", "_")}.npy")
         cis = np.load(f"data/cis_rho_{str(rho).replace(".", "_")}.npy")
         for j, (n, color) in enumerate(
