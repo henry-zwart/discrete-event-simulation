@@ -4,7 +4,7 @@ import seaborn as sns
 
 # Plot box plot
 
-avg_wait = np.load("../data/exercise_2_avg_wait_nr_servers.npy")
+avg_wait = np.load("data/exercise_2_avg_wait_nr_servers.npy")
 
 results_dictionary = {"1": avg_wait[0], "2": avg_wait[1], "4": avg_wait[2]}
 plt.rc("xtick", labelsize=14)
@@ -18,7 +18,7 @@ sns.swarmplot(data=results_dictionary, color="k")
 ax.set_xlabel("Number of servers")
 ax.set_ylabel("Average waiting time")
 
-plt.savefig("../figures/exercise_2_boxplot.png", dpi=300)
+plt.savefig("results/figures/exercise_2_boxplot.png", dpi=300)
 
 
 means_dict = {}
@@ -26,15 +26,15 @@ std_dict = {}
 lower_dict = {}
 upper_dict = {}
 
-sim_time_list = np.load("../data/sim_time_list.npy")
-rho_list = np.load("../data/rho_list.npy")
+sim_time_list = np.load("data/sim_time_list.npy")
+rho_list = np.load("data/rho_list.npy")
 
 
 for rho in rho_list:
-    means_dict[(rho)] = np.load(f"../data/means_{rho}.npy")
-    std_dict[(rho)] = np.load(f"../data/std_{rho}.npy")
-    lower_dict[(rho)] = np.load(f"../data/lower_{rho}.npy")
-    upper_dict[(rho)] = np.load(f"../data/upper_{rho}.npy")
+    means_dict[(rho)] = np.load(f"data/means_{rho}.npy")
+    std_dict[(rho)] = np.load(f"data/std_{rho}.npy")
+    lower_dict[(rho)] = np.load(f"data/lower_{rho}.npy")
+    upper_dict[(rho)] = np.load(f"data/upper_{rho}.npy")
 
 # Plot results with confidence intervals
 fig, axes = plt.subplots(4, sharex=True, sharey=True, figsize=(12, 12))
@@ -74,4 +74,4 @@ fig.supylabel("Average waiting time")
 fig.supxlabel("Simulation time")
 axes[0].text(0.1, 0.5, f"rho={rho}")
 
-plt.savefig("../figures/exercise_2_confidence_plot", dpi=300)
+plt.savefig("results/figures/exercise_2_confidence_plot", dpi=300)

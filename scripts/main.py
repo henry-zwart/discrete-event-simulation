@@ -225,28 +225,19 @@ def run(seed, sim_time, nr_servers, capacity, rho, fifo, service_dis):
     return avg_waiting_time
 
 
-def experiment(num_runs, seed, sim_time, rho, fifo, service_dis):
+def experiment(num_runs, seed, sim_time, rho, fifo, service_dis, n_servers=1):
     """From this function runs are called to gather data."""
-    avg_wait_nr_servers = []
+    waiting_time_runs = []
+    for _ in range(num_runs):
+        waiting_time = run(
+            seed,
+            sim_time,
+            n_servers,
+            capacity=1,
+            rho=rho,
+            fifo=fifo,
+            service_dis=service_dis,
+        )
+        waiting_time_runs.append(waiting_time)
 
-    for nr_servers in [1, 2, 4]:
-        print("nr_servers: ", nr_servers)
-        waiting_time_runs = []
-        for i in range(num_runs):
-            print("run: ", i)
-            waiting_time = run(
-                seed,
-                sim_time,
-                nr_servers,
-                capacity=1,
-                rho=rho,
-                fifo=fifo,
-                service_dis=service_dis,
-            )
-            waiting_time_runs.append(waiting_time)
-        avg_wait_nr_servers.append(waiting_time_runs)
-
-    # This is for the statistical significance.
-    avg_wait_nr_servers = np.array(avg_wait_nr_servers)
-
-    return avg_wait_nr_servers
+    return np.array(waiting_time_runs)
