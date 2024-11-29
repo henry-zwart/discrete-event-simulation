@@ -1,6 +1,8 @@
 import itertools
 
+import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 from main import experiment
 from tqdm import tqdm
 

@@ -6,7 +6,7 @@ def plot():
     measure_times = np.load("data/measure_times.npy")
 
     fig, axes = plt.subplots(1, 3, figsize=(10, 4), sharey=True)
-    for i, rho in enumerate((0.5, 0.9, 0.99)):
+    for i, rho in enumerate((0.7, 0.9, 0.99)):
         means = np.load(f"data/means_rho_{str(rho).replace(".", "_")}.npy")
         cis = np.load(f"data/cis_rho_{str(rho).replace(".", "_")}.npy")
         for j, (n, color) in enumerate(
@@ -30,7 +30,7 @@ def plot():
     fig.supylabel("Expected waiting time")
 
     fig.tight_layout()
-    fig.savefig("results/figures/exp_waiting_time.png", dpi=500)
+    fig.savefig("results/figures/wait_time_vs_measure_time.png", dpi=500)
 
 
 if __name__ == "__main__":

@@ -5,8 +5,8 @@ from main import experiment
 from tqdm import tqdm
 
 
-def run(rho, n):
-    measure_times = np.arange(50, 2000, 50)
+def run(rho):
+    measure_times = np.arange(100, 5000, 100)
     means = []
     cis = []
     for n in (1, 2, 4):
@@ -14,7 +14,7 @@ def run(rho, n):
         n_cis = []
         for mt in tqdm(measure_times):
             wait_times = experiment(
-                num_runs=50,
+                num_runs=100,
                 seed=42,
                 sim_time=mt,
                 rho=rho,
@@ -24,7 +24,7 @@ def run(rho, n):
             )
             avg = wait_times.mean()
             std = wait_times.std(ddof=1)
-            ci = 1.96 * std / np.sqrt(50)
+            ci = 3 * std / np.sqrt(100)
             n_means.append(avg)
             n_cis.append(ci)
         means.append(n_means)
@@ -38,9 +38,11 @@ def run(rho, n):
 
 if __name__ == "__main__":
     try:
-        rho, n = sys.argv[1:3]
+        rho = sys.argv[1]
         rho = float(rho)
     except IndexError as err:
         raise ValueError("Expected two arguments: rho, n_servers") from err
+    except ValueError as err:
+        raise ValueError("Could not parse parameter rho.") from err
 
-    run(rho, n)
+    run(rho)
