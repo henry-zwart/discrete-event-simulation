@@ -13,6 +13,7 @@ import numpy as np
 
 
 def plot():
+    """Plots results from the file exercise_2_5."""
     measure_times = np.load("data/measure_times.npy")
 
     fig, axes = plt.subplots(1, 3, figsize=(10, 4), sharey=True)
@@ -35,10 +36,10 @@ def plot():
                 color=color,
             )
         axes[i].set_title(r"$\rho$ = " + f"{rho:.2f}")
+
     fig.legend()
     fig.supxlabel("Measurement time")
     fig.supylabel("Expected waiting time")
-
     fig.tight_layout()
     fig.savefig("results/figures/wait_time_vs_measure_time.png", dpi=500)
 

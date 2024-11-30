@@ -28,9 +28,9 @@ sim_time = 2000
 num_runs = 30
 rhos = np.arange(0.5, 1, 0.01)
 n_tuple = (1, 2, 4)
-# plot avg waiting time for each n show each distribution as a plot of rho
 
 
+# Plots avg waiting time for each n show each distribution as a plot of rho.
 def run_exercise_4():
     servers_means = []
     servers_cis = []

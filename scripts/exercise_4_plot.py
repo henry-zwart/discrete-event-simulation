@@ -47,10 +47,9 @@ for i, n in enumerate((1, 2, 4)):
     )
     if i == 0:
         fig.legend(loc="upper right", bbox_to_anchor=(0.98, 0.9))
+
+
 fig.supxlabel(r"$\rho$", fontsize=20)
 fig.supylabel("Average waiting time", fontsize=20)
-
 fig.tight_layout()
-
-
 plt.savefig("./figures/exercise_4.png", dpi=300)

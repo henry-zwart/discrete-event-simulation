@@ -58,7 +58,7 @@ with open("data/exercise_2.txt", "w") as f:
     f.close()
 
 
-# Simulate for multiple values of rho and number of runs and get statistics
+# Simulates for multiple values of rho and number of runs and gets statistics.
 avg_wait_nr_servers = []
 means_dict = {}
 std_dict = {}

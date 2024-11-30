@@ -46,7 +46,7 @@ for rho in rho_list:
     lower_dict[(rho)] = np.load(f"data/lower_{rho}.npy")
     upper_dict[(rho)] = np.load(f"data/upper_{rho}.npy")
 
-# Plot results with confidence intervals
+# Plots results with confidence intervals.
 fig, axes = plt.subplots(4, sharex=True, sharey=True, figsize=(12, 12))
 for i, rho in enumerate(rho_list):
     axes[i].plot(sim_time_list, np.take(np.array(means_dict[(rho)]), 0, axis=1))
@@ -80,8 +80,9 @@ for i, rho in enumerate(rho_list):
         transform=axes[i].transAxes,
         rotation=45,
     )
+
+
 fig.supylabel("Average waiting time")
 fig.supxlabel("Simulation time")
 axes[0].text(0.1, 0.5, f"rho={rho}")
-
 plt.savefig("results/figures/exercise_2_confidence_plot", dpi=300)
