@@ -1,3 +1,14 @@
+"""
+Course: Stochastic Simulation
+Names: Petr Chalupský, Henry Zwart, Tika van Bennekum
+Student IDs: 15719227, 15393879, 13392425
+Assignement: DES simulation	assignment
+
+File description:
+    In this file we look at the relative waiting times between using a FIFO
+    or a shortest job first scheduling algorithm. The system used is M/M/1.
+"""
+
 import itertools
 
 import matplotlib.pyplot as plt

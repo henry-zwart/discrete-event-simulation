@@ -5,9 +5,8 @@ Student IDs: 15719227, 15393879, 13392425
 Assignement: DES simulation	assignment
 
 File description:
-    ...
-    Arrival rate (lambda)
-    Capacity (mu)
+    In this file all the code needed for the experiments is written.
+    An experiment will call this file to run a simulation of the system.
 """
 
 import random

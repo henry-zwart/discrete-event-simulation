@@ -1,3 +1,13 @@
+"""
+Course: Stochastic Simulation
+Names: Petr Chalupský, Henry Zwart, Tika van Bennekum
+Student IDs: 15719227, 15393879, 13392425
+Assignement: DES simulation	assignment
+
+File description:
+    This file elaborates on exercise_2.py.
+"""
+
 import sys
 
 import numpy as np

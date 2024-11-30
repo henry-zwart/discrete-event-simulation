@@ -1,3 +1,18 @@
+"""
+Course: Stochastic Simulation
+Names: Petr Chalupský, Henry Zwart, Tika van Bennekum
+Student IDs: 15719227, 15393879, 13392425
+Assignement: DES simulation	assignment
+
+File description:
+    In this file we look at the relative waiting times between a system with
+    a different number of servers. The same load characteristics are used
+    (system load ρ and processor capacity µ), with an exponential service dis-
+    tribution and a FIFO scheduling algorithm. The difference between the average
+    waiting time for 1, 2 and 4 servers are compared. Welch is used to ensure
+    a statistical signifance.
+"""
+
 import itertools
 
 import numpy as np
@@ -10,7 +25,7 @@ CLIENT_COUNT = itertools.count()
 
 seed = 145
 sim_time = 2000
-num_runs = 30
+num_runs = 2
 service_dis = "exponential"
 fifo = True
 rho = 0.95
@@ -48,7 +63,6 @@ avg_wait_nr_servers = []
 means_dict = {}
 std_dict = {}
 rho_list = [0.5, 0.65, 0.8, 0.95]
-# num_runs_list = [x for x in range(5,5,200)]
 sim_time_list = [x for x in range(100, 300, 50)]
 np.save("data/sim_time_list", sim_time_list)
 np.save("data/rho_list", rho_list)

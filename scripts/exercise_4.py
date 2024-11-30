@@ -1,8 +1,20 @@
+"""
+Course: Stochastic Simulation
+Names: Petr Chalupský, Henry Zwart, Tika van Bennekum
+Student IDs: 15719227, 15393879, 13392425
+Assignement: DES simulation	assignment
+
+File description:
+    In this file we look at the relative waiting times between a system with
+    different service time distributions:
+        - Exponential
+        - Deterministic
+        - Hyperexponential
+"""
+
 import itertools
 
-import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
 from main import experiment
 from tqdm import tqdm
 
