@@ -9,7 +9,6 @@ File description:
     An experiment will call this file to run a simulation of the system.
 """
 
-import random
 from dataclasses import dataclass, field
 
 import numpy as np
@@ -75,9 +74,13 @@ class SimulationData:
 
     def mean_waiting_time(self) -> float:
         """Average waiting time for clients _not still waiting_."""
-        return np.mean(
-            [wt for c in self.clients.values() if (wt := c.waiting_time()) is not None]
-        ).astype(float)
+        waiting_times = [
+            wt for c in self.clients.values() if (wt := c.waiting_time()) is not None
+        ]
+        if len(waiting_times) == 0:
+            return 0.0
+
+        return np.mean(waiting_times).astype(float)
 
 
 class System:
@@ -90,6 +93,7 @@ class System:
         env,
         nr_servers,
         capacity: float,
+        rng,
         service_dist: str = "exponential",
         fifo=False,
     ):
@@ -106,6 +110,7 @@ class System:
         """
         # Internal data
         self.env = env
+        self.rng = rng
         self.capacity = capacity
         self.record = SimulationData()
 
@@ -174,7 +179,7 @@ class System:
 
     def _sample_exp_service_time(self) -> float:
         """Helper function: sample service times from exponential dist."""
-        return np.random.exponential(1 / self.capacity)
+        return self.rng.exponential(1 / self.capacity)
 
     def _det_service_time(self) -> float:
         """Helper function: sample service times deterministically."""
@@ -183,9 +188,9 @@ class System:
     def _sample_hexp_service_time(self) -> float:
         """Helper function: sample service times from hyperexponential dist."""
         if np.random.random() < 0.75:
-            return np.random.exponential(0.5 / self.capacity)
+            return self.rng.exponential(0.5 / self.capacity)
         else:
-            return np.random.exponential(2.5 / self.capacity)
+            return self.rng.exponential(2.5 / self.capacity)
 
 
 def setup(
@@ -193,6 +198,7 @@ def setup(
     nr_servers,
     capacity,
     rho,
+    rng,
     fifo=True,
     service_dis="exponential",
 ) -> System:
@@ -209,16 +215,15 @@ def setup(
     and 'hyperexponential'.
     """
     arrival_rate = rho * nr_servers * capacity
-    system = System(env, nr_servers, capacity, service_dis, fifo)
+    system = System(env, nr_servers, capacity, rng, service_dis, fifo)
     env.process(system.generate_clients(arrival_rate))
     return system
 
 
-def run(seed, sim_time, nr_servers, capacity, rho, fifo, service_dis):
+def run(rng, sim_time, nr_servers, capacity, rho, fifo, service_dis):
     """Simulate an M/(M,D,G)/n queue, and return the average waiting time."""
-    random.seed(seed)
     env = simpy.Environment()
-    system = setup(env, nr_servers, capacity, rho, fifo, service_dis)
+    system = setup(env, nr_servers, capacity, rho, rng, fifo, service_dis)
     env.run(until=sim_time)
     avg_waiting_time = system.record.mean_waiting_time()
     return avg_waiting_time
@@ -227,9 +232,10 @@ def run(seed, sim_time, nr_servers, capacity, rho, fifo, service_dis):
 def experiment(num_runs, seed, sim_time, rho, service_dis, fifo=True, n_servers=1):
     """From this function runs are called to gather data."""
     waiting_time_runs = []
+    rng = np.random.default_rng(seed)
     for _ in range(num_runs):
         waiting_time = run(
-            seed,
+            rng,
             sim_time,
             n_servers,
             capacity=1,

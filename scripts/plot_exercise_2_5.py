@@ -85,7 +85,7 @@ def plot_wait_time_by_rho(rhos, ns):
         config_means.append(rho_mean)
         config_lower.append(rho_mean - rho_ci)
         config_upper.append(rho_mean + rho_ci)
-    ax.plot(float_rhos, config_means, color="purple", label="1 (SO)")
+    ax.plot(float_rhos, config_means, color="purple", label="1 (ST)")
     ax.plot(float_rhos, config_lower, color="purple", alpha=0.7)
     ax.plot(float_rhos, config_upper, color="purple", alpha=0.7)
     ax.fill_between(float_rhos, config_lower, config_upper, alpha=0.5, color="purple")

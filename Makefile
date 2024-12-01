@@ -19,9 +19,12 @@ EX2_MEAN_FILES = $(foreach params,$(EX2_PARAMS),data/ex2_means_$(params)_5000_fi
 
 ENTRYPOINT ?= uv run
 
-all: $(FIGURES)
+all: $(FIGURES) results/sig_tests.json
 
 $(FIGURES) ?: .make-figures .ex2-figures
+
+results/sig_tests.json: scripts/statistical_tests.py $(EX2_MEAN_FILES) | $(FIGURES_DIR)
+	$(ENTRYPOINT) $< "$(RHO_EX2)" "$(N_EX2)"
 
 .make-figures: \
 		scripts/plot_exercise_2.py \
@@ -59,4 +62,4 @@ $(DATA_DIR):
 
 .PHONY: clean
 clean:
-	rm -rf results data
+	rm -rf results data .ex2-figures .make-figures

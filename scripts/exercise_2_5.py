@@ -8,6 +8,7 @@ File description:
     This file elaborates on exercise_2.py.
 """
 
+import random
 import sys
 
 import numpy as np
@@ -16,13 +17,16 @@ from tqdm import tqdm
 
 
 def run(rho, n):
-    measure_times = np.arange(200, 5001, 200)
+    measure_times = np.concat((np.array([1]), np.arange(200, 5002, 200)))
     means = []
     cis = []
-    for mt in tqdm(measure_times):
+    for mt in tqdm(
+        measure_times,
+        desc=f"Comparing measurement times,{rho=}, {n=}",
+    ):
         wait_times = experiment(
             num_runs=100,
-            seed=125,
+            seed=145,
             sim_time=mt,
             rho=rho,
             fifo=True,
@@ -47,6 +51,7 @@ def run(rho, n):
 
 
 if __name__ == "__main__":
+    random.seed(145)
     try:
         rho, n = sys.argv[1:3]
         rho = f"0.{rho}"
