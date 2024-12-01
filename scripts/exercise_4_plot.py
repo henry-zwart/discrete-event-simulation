@@ -52,4 +52,23 @@ for i, n in enumerate((1, 2, 4)):
 fig.supxlabel(r"$\rho$", fontsize=20)
 fig.supylabel("Average waiting time", fontsize=20)
 fig.tight_layout()
-plt.savefig("./figures/exercise_4.png", dpi=300)
+
+
+plt.savefig("results/figures/exercise_4.png", dpi=300)
+
+fig, axes = plt.subplots(1, 3, sharey=True, figsize=(10, 4))
+subset_rho_idx = [30, 40, 45]
+for i, rho_idx in enumerate(subset_rho_idx):
+    for j, dist in enumerate(("exponential", "deterministic", "hyperexponential")):
+        axes[i].plot(np.array([1, 2, 4]), servers_means[..., j, rho_idx], label=dist)
+        axes[i].fill_between(
+            np.array([1, 2, 4]),
+            servers_means[..., j, rho_idx] - servers_cis[..., j, rho_idx],
+            servers_means[..., j, rho_idx] + servers_cis[..., j, rho_idx],
+            alpha=0.3,
+        )
+fig.legend()
+fig.supxlabel("Number of servers")
+fig.supylabel("Expected waiting time")
+fig.tight_layout()
+fig.savefig("results/figures/service_dist_by_n.png", dpi=500)
