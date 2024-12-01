@@ -24,9 +24,9 @@ CLIENT_COUNT = itertools.count()
 
 
 seed = 145
-sim_time = 2000
-num_runs = 30
-rhos = np.arange(0.5, 1, 0.01)
+sim_time = 5000
+num_runs = 100
+rhos = np.array([0.8, 0.9, 0.98])
 n_tuple = (1, 2, 4)
 
 
