@@ -9,15 +9,11 @@ File description:
     or a shortest job first scheduling algorithm. The system used is M/M/1.
 """
 
-import itertools
+import random
 import sys
 
 import numpy as np
 from main import experiment
-
-SIM_TIME = 0
-AVG_WAITING_TIME = 0
-CLIENT_COUNT = itertools.count()
 
 
 def run(rho: float):
@@ -42,6 +38,7 @@ def run(rho: float):
 
 
 if __name__ == "__main__":
+    random.seed(145)
     try:
         rho = sys.argv[1]
         rho = f"0.{rho}"
@@ -52,19 +49,3 @@ if __name__ == "__main__":
         raise ValueError("Could not parse parameter rho.") from err
 
     run(rho)
-# results_dictionary = {
-#     "FIFO": avg_wait_nr_servers_fifo[0],
-#     "NOT_FIFO": avg_wait_nr_servers_not_fifo[0],
-# }
-#
-#
-# plt.rc("xtick", labelsize=14)
-# plt.rc("ytick", labelsize=14)
-# plt.rc("axes", labelsize=18)
-#
-# fig, ax = plt.subplots(figsize=(12, 12))
-# sns.boxplot(results_dictionary, ax=ax)
-# sns.swarmplot(data=results_dictionary, color="k")
-#
-# ax.set_ylabel("Average waiting time")
-# plt.savefig("results/figures/exercise_3_boxplot.png", dpi=300)
