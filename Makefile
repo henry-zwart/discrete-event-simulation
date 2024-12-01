@@ -29,7 +29,7 @@ $(FIGURES) ?: .make-figures .ex2-figures
 		scripts/plot_exercise_2.py \
 		scripts/exercise_4_plot.py \
 		scripts/exercise_3.py \
-		scripts/exercise_4.py \
+		data/.ex4_data \
 		data/.ex2_data \
 		| $(FIGURES_DIR)
 	$(ENTRYPOINT) scripts/plot_exercise_2.py && \
@@ -44,6 +44,10 @@ $(FIGURES) ?: .make-figures .ex2-figures
 
 data/ex2_means_%.npy: scripts/exercise_2_5.py | $(DATA_DIR)
 	$(ENTRYPOINT) $< $(subst _, ,$*)
+
+data/.ex4_data: scripts/exercise_4.py | $(DATA_DIR)
+	$(ENTRYPOINT) $< && \
+	touch $@
 
 data/.ex2_data: scripts/exercise_2.py | $(DATA_DIR)
 	$(ENTRYPOINT) $< && \
