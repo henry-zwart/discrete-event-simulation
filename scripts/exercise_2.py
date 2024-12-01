@@ -25,7 +25,7 @@ CLIENT_COUNT = itertools.count()
 
 seed = 145
 sim_time = 2000
-num_runs = 30
+num_runs = 100
 service_dis = "exponential"
 fifo = True
 rho = 0.95

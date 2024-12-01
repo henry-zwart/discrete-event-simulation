@@ -55,7 +55,8 @@ def plot_wait_time_by_rho(rhos, servers_means, servers_cis):
 
 def plot_wait_time_by_n(rhos, servers_means, servers_cis):
     fig, axes = plt.subplots(1, 3, sharey=True, figsize=(6, 2.5))
-    subset_rho_idx = [30, 40, 45]
+    subset_rho_idx = [30, 40, 48]
+    subset_rho_idx = [0, 1, 2]
     for i, rho_idx in enumerate(subset_rho_idx):
         for j, dist in enumerate(("Exp", "Det", "H-Exp")):
             axes[i].plot(
