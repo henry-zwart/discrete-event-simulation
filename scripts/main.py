@@ -5,9 +5,8 @@ Student IDs: 15719227, 15393879, 13392425
 Assignement: DES simulation	assignment
 
 File description:
-    ...
-    Arrival rate (lambda)
-    Capacity (mu)
+    In this file all the code needed for the experiments is written.
+    An experiment will call this file to run a simulation of the system.
 """
 
 import random
@@ -184,9 +183,9 @@ class System:
     def _sample_hexp_service_time(self) -> float:
         """Helper function: sample service times from hyperexponential dist."""
         if np.random.random() < 0.75:
-            return np.random.exponential(1 / self.capacity)
+            return np.random.exponential(0.5 / self.capacity)
         else:
-            return np.random.exponential(5 / self.capacity)
+            return np.random.exponential(2.5 / self.capacity)
 
 
 def setup(
@@ -225,28 +224,19 @@ def run(seed, sim_time, nr_servers, capacity, rho, fifo, service_dis):
     return avg_waiting_time
 
 
-def experiment(num_runs, seed, sim_time, rho, fifo, service_dis):
+def experiment(num_runs, seed, sim_time, rho, service_dis, fifo=True, n_servers=1):
     """From this function runs are called to gather data."""
-    avg_wait_nr_servers = []
+    waiting_time_runs = []
+    for _ in range(num_runs):
+        waiting_time = run(
+            seed,
+            sim_time,
+            n_servers,
+            capacity=1,
+            rho=rho,
+            fifo=fifo,
+            service_dis=service_dis,
+        )
+        waiting_time_runs.append(waiting_time)
 
-    for nr_servers in [1, 2, 4]:
-        print("nr_servers: ", nr_servers)
-        waiting_time_runs = []
-        for i in range(num_runs):
-            print("run: ", i)
-            waiting_time = run(
-                seed,
-                sim_time,
-                nr_servers,
-                capacity=1,
-                rho=rho,
-                fifo=False,
-                service_dis="hyperexponential",
-            )
-            waiting_time_runs.append(waiting_time)
-        avg_wait_nr_servers.append(waiting_time_runs)
-
-    # This is for the statistical significance.
-    avg_wait_nr_servers = np.array(avg_wait_nr_servers)
-
-    return avg_wait_nr_servers
+    return np.array(waiting_time_runs)

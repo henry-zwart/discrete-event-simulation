@@ -206,3 +206,9 @@ pyrightconfig.json
 *.pkl
 *.json
 .targets/*
+data/exercise_2.txt
+data/.ex2_data
+data/.ex4_data
+.make-figures
+.ex2-figures
+bibtex.bib
