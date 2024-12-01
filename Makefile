@@ -62,4 +62,4 @@ $(DATA_DIR):
 
 .PHONY: clean
 clean:
-	rm -rf results data
+	rm -rf results data .ex2-figures .make-figures
