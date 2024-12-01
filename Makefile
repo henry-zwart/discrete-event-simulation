@@ -16,9 +16,6 @@ EX2_PARAMS := $(foreach rho,$(RHO_EX2),$(foreach n,$(N_EX2), $(rho)_$(n)))
 EX2_MEAN_FILES = $(foreach params,$(EX2_PARAMS),data/ex2_means_$(params).npy)
 
 
-# Just use the means file as the target. Require means file for each EX2_RUNS variable.
-# Use this to parallelise
-
 ENTRYPOINT ?= uv run
 
 all: $(FIGURES)
@@ -33,9 +30,8 @@ $(FIGURES) ?: .make-figures .ex2-figures
 		data/.ex2_data \
 		| $(FIGURES_DIR)
 	$(ENTRYPOINT) scripts/plot_exercise_2.py && \
-	$(ENTRYPOINT) scripts/exercise_4_plot.py && \
 	$(ENTRYPOINT) scripts/exercise_3.py && \
-	$(ENTRYPOINT) scripts/exercise_4.py && \
+	$(ENTRYPOINT) scripts/exercise_4_plot.py && \
 	touch $@
 
 .ex2-figures: scripts/plot_exercise_2_5.py $(EX2_MEAN_FILES)
