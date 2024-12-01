@@ -42,6 +42,9 @@ def run(rho, n):
     np.save(f"data/ex2_cis_{rho_label}_{n_label}.npy", cis)
     np.save(f"data/ex2_means_{rho_label}_{n_label}.npy", means)
 
+    # Save the average wait times for the largest measurement duration
+    np.save(f"data/ex2_means_{rho_label}_{n_label}_{mt}_fifo.npy", wait_times)  # type: ignore
+
 
 if __name__ == "__main__":
     try:
