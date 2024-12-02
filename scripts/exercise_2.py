@@ -20,6 +20,7 @@ from main import experiment
 
 
 def run():
+    """Runs the system for a different number of servers."""
     seed = 145
     sim_time = 2000
     num_runs = 100

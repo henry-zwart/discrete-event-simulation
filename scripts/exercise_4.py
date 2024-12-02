@@ -21,6 +21,7 @@ from tqdm import tqdm
 
 # Plots avg waiting time for each n show each distribution as a plot of rho.
 def run_exercise_4():
+    """Runs the system for different service-time distributions."""
     seed = 145
     sim_time = 5000
     num_runs = 100

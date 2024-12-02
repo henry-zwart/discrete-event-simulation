@@ -17,6 +17,7 @@ from main import experiment
 
 
 def run(rho: float):
+    """Runs the system with different scheduling algorithms."""
     seed = 145
     sim_time = 5000
     num_runs = 100

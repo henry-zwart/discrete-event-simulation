@@ -18,6 +18,7 @@ from discrete_event_sim.plots import save_fig
 
 
 def plot_wait_time_by_rho(rhos, servers_means, servers_cis):
+    """Plots the results from file exercise_4.py."""
     fig, axes = plt.subplots(ncols=3, figsize=(5.9, 2.5), sharey=True)
 
     for i, n in enumerate((1, 2, 4)):

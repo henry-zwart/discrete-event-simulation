@@ -17,6 +17,7 @@ from tqdm import tqdm
 
 
 def run(rho, n):
+    """An extra function for running the system for a different number of servers."""
     measure_times = np.concat((np.array([1]), np.arange(200, 5002, 200)))
     means = []
     cis = []
