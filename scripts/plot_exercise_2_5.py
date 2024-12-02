@@ -20,7 +20,7 @@ from discrete_event_sim.plots import save_fig
 
 def plot_wait_vs_measure_duration(rhos, ns):
     """Plots results from the file exercise_2_5."""
-    fig, axes = plt.subplots(1, 3, figsize=(6, 2.5), sharey=True)
+    fig, axes = plt.subplots(1, 3, figsize=(5.9, 2.5), sharey=True)
 
     for i, rho in enumerate(rhos):
         for n, color in zip(ns, ("red", "green", "blue"), strict=False):
@@ -45,8 +45,8 @@ def plot_wait_vs_measure_duration(rhos, ns):
         axes[i].set_title(r"$\rho$ = " + f"{float_rho:.2f}")
 
     fig.legend(loc="center left", bbox_to_anchor=(1, 0.5), title=r"$n$")
-    fig.supxlabel("Measurement duration")
-    fig.supylabel(r"$E(W_n)$")
+    axes[1].set_xlabel("Measurement duration")
+    axes[0].set_ylabel(r"$E(W_n)$")
     fig.tight_layout()
     save_fig(fig, "wait_time_vs_measure_time", Path("results/figures"))
 
@@ -137,6 +137,8 @@ if __name__ == "__main__":
         "paper",
         rc={
             "axes.linewidth": 0.5,
+            "axes.labelsize": FONT_SIZE_LARGE,
+            "axes.titlesize": FONT_SIZE_LARGE,
             "xtick.major.width": 0.5,
             "ytick.major.width": 0.5,
             "ytick.minor.width": 0.4,

@@ -18,7 +18,7 @@ from discrete_event_sim.plots import save_fig
 
 
 def plot_wait_time_by_rho(rhos, servers_means, servers_cis):
-    fig, axes = plt.subplots(ncols=3, figsize=(6, 2.5), sharey=True)
+    fig, axes = plt.subplots(ncols=3, figsize=(5.9, 2.5), sharey=True)
 
     for i, n in enumerate((1, 2, 4)):
         axes[i].set_title(f"n = {n}")
@@ -47,14 +47,14 @@ def plot_wait_time_by_rho(rhos, servers_means, servers_cis):
         if i == 0:
             fig.legend(loc="center left", bbox_to_anchor=(1, 0.5))
 
-    fig.supxlabel(r"$\rho$")
-    fig.supylabel(r"$E(W_n)$")
+    axes[1].set_xlabel(r"$\rho$")
+    axes[0].set_ylabel(r"$E(W_n)$")
 
     save_fig(fig, "exercise_4", Path("results/figures"))
 
 
 def plot_wait_time_by_n(rhos, servers_means, servers_cis):
-    fig, axes = plt.subplots(1, 3, sharey=True, figsize=(6, 2.5))
+    fig, axes = plt.subplots(1, 3, sharey=True, figsize=(5.9, 2.5))
     subset_rho_idx = [30, 40, 48]
     subset_rho_idx = [0, 1, 2]
     for i, rho_idx in enumerate(subset_rho_idx):
@@ -72,8 +72,8 @@ def plot_wait_time_by_n(rhos, servers_means, servers_cis):
             )
         axes[i].set_title(r"$\rho = $" + f"{rhos[rho_idx]:.2f}")
 
-    fig.supylabel(r"$E(W_n)$")
-    fig.supxlabel(r"$n$")
+    axes[0].set_ylabel(r"$E(W_n)$")
+    axes[1].set_xlabel(r"$n$")
     fig.legend(loc="center left", bbox_to_anchor=(1, 0.5))
     save_fig(fig, "service_dist_by_n", Path("results/figures"))
 
@@ -88,8 +88,8 @@ if __name__ == "__main__":
     plt.rc("mathtext", fontset="stix")
     plt.rc("font", size=FONT_SIZE_DEFAULT)  # controls default text sizes
     plt.rc("axes", titlesize=FONT_SIZE_LARGE)  # fontsize of the axes title
-    plt.rc("axes", labelsize=FONT_SIZE_DEFAULT)  # fontsize of the x and y labels
-    plt.rc("figure", labelsize=FONT_SIZE_DEFAULT)
+    plt.rc("axes", labelsize=FONT_SIZE_LARGE)  # fontsize of the x and y labels
+    plt.rc("figure", labelsize=FONT_SIZE_LARGE)
     plt.rc("xtick", labelsize=FONT_SIZE_SMALL)  # fontsize of the tick labels
     plt.rc("ytick", labelsize=FONT_SIZE_SMALL)  # fontsize of the tick labels
 
@@ -100,6 +100,8 @@ if __name__ == "__main__":
         "paper",
         rc={
             "axes.linewidth": 0.5,
+            "axes.labelsize": FONT_SIZE_LARGE,
+            "axes.titlesize": FONT_SIZE_LARGE,
             "xtick.major.width": 0.5,
             "ytick.major.width": 0.5,
             "ytick.minor.width": 0.4,
